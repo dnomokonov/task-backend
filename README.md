@@ -1,4 +1,4 @@
-![header](https://s1.hostingkartinok.com/uploads/images/2025/07/7ff760f03b488bdd7f1d4c11608b2f99.png)
+![header](https://a.i.getapic.me/m6z0.png)
 
 # Task Manager Backend
 Сервер для веб-приложения "Менеджер задач"
