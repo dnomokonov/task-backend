@@ -40,25 +40,25 @@ const deleteTaskController = async (req, res) => {
 const updateTaskController = async (req, res) => {
     try {
         const id = parseInt(req.params.id);
-        const task = await updateTask(id);
+        const task = await updateTask(id, req.body);
         if (task) {
-            res.status(200).json({id: id, message: status.message});
+            res.status(200).json(task);
         } else {
-            res.status(404).json({error: 'Task not found'});
+            res.status(404).json({ error: 'Task not found' });
         }
     } catch (e) {
-        res.status(500).json({error: e.message});
+        res.status(500).json({ error: e.message });
     }
-}
+};
 
 const createTaskController = async (req, res) => {
     try {
-        const taskId = await createTask(req.body);
-        res.status(201).json({id: taskId, message: "successfully"});
+        const task = await createTask(req.body);
+        res.status(201).json(task);
     } catch (e) {
-        res.status(500).json({error: e.message});
+        res.status(500).json({ error: e.message });
     }
-}
+};
 
 module.exports = {
     getTasksController,

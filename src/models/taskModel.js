@@ -29,16 +29,27 @@ const createTask = async (data) => {
         const query = `
             INSERT INTO tasks (title, description, category, status, priority, datecreated)
             VALUES ($1, $2, $3, $4, $5, $6)
-            RETURNING id
+            RETURNING id, title, description, category, status, priority, datecreated
         `;
         const values = [title, description || null, category, status, priority, dateCreated];
 
         const result = await db.one(query, values);
-        return result.id;
+
+        // Вернем сразу полный объект задачи
+        return {
+            id: result.id.toString(),  // если id — число, привести к строке
+            title: result.title,
+            description: result.description,
+            category: result.category,
+            status: result.status,
+            priority: result.priority,
+            createdAt: result.datecreated,  // если в клиенте поле называется createdAt
+        };
     } catch (e) {
         throw new Error(`Error creating task: ${e.message}`);
     }
 };
+
 
 const updateTask = async (id, data) => {
     try {
@@ -50,7 +61,7 @@ const updateTask = async (id, data) => {
 
         const query = `
             UPDATE tasks 
-            SET title = $1, description = $2, category = $3, status = $4, priority = $5
+            SET title = $1, description = $2, category = $3, status = $4, priority = $5, datecreated = NOW()
             WHERE id = $6
             RETURNING *
         `;
